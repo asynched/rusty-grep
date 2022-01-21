@@ -33,6 +33,7 @@ $ cargo build --release
 - [x] Implement colored highlight
 - [x] Implement logic for piped output (such as `cat $SOURCE | grep ...`)
 - [x] Implement line numbers
+- [ ] Implement reversed regex
 
 ## Author
 

@@ -9,7 +9,6 @@ pub fn read_from_stdin() -> String {
         .lock()
         .lines()
         .map(|item| {
-            println!("HERE");
             item.expect("Couldn't read from stdin, have you piped any input to the program?")
         })
         .collect::<Vec<String>>()
