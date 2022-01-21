@@ -2,6 +2,10 @@
 
 A rewrite of GREP using Rust. 🦀
 
+## Preview
+
+![Preview of the CLI using a sample file as an example](preview/preview.gif)
+
 ## Usage
 
 The usage is very basic, there are mostly 2 arguments, the regex pattern and the source file to find the items in.
