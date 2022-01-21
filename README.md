@@ -8,20 +8,12 @@ A rewrite of GREP using Rust. 🦀
 
 ## Usage
 
-The usage is very basic, there are mostly 2 arguments, the regex pattern and the source file to find the items in.
-
 | argument       | short | description                                          |
 | -------------- | ----- | ---------------------------------------------------- |
 | --filename     | -f    | Filename to search within the file system (Optional) |
 | --help         | -h    | Print help information                               |
 | --line-numbers | -l    | Optional value to show line numbers or not           |
 | --pattern      | -p    | Regex to search within the file                      |
-
-### Usage example
-
-```sh
-$ $COMPILED $PATTERN $SOURCE_FILE
-```
 
 ## Building
 
