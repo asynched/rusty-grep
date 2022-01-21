@@ -6,10 +6,12 @@ A rewrite of GREP using Rust. 🦀
 
 The usage is very basic, there are mostly 2 arguments, the regex pattern and the source file to find the items in.
 
-| argument    | type   |
-| ----------- | ------ |
-| pattern     | string |
-| source file | string |
+| argument       | short | description                                          |
+| -------------- | ----- | ---------------------------------------------------- |
+| --filename     | -f    | Filename to search within the file system (Optional) |
+| --help         | -h    | Print help information                               |
+| --line-numbers | -l    | Optional value to show line numbers or not           |
+| --pattern      | -p    | Regex to search within the file                      |
 
 ### Usage example
 
@@ -29,10 +31,8 @@ $ cargo build --release
 
 - [x] Implement logic from reading from file
 - [x] Implement colored highlight
-- [ ] Implement colored output option for the end user
-- [ ] Implement logic for piped output (such as `cat $SOURCE | grep ...`)
-- [ ] Implement line numbers
-- [ ] Implement reversed regex
+- [x] Implement logic for piped output (such as `cat $SOURCE | grep ...`)
+- [x] Implement line numbers
 
 ## Author
 

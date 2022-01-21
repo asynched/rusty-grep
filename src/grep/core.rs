@@ -1,43 +1,55 @@
-use colored::Colorize;
-use regex::Regex;
+use super::files;
+use super::regexp;
+use super::stdin;
+use super::stdout;
 
-fn read_source_file(filename: &str) -> String {
-    std::fs::read_to_string(filename).expect("Couldn't read source file!")
+use clap::Parser;
+
+#[derive(Parser, Debug)]
+struct Arguments {
+    /// Filename to search within the file system
+    #[clap(short, long, default_value = "")]
+    filename: String,
+
+    /// Regex to search within the file
+    #[clap(short, long)]
+    pattern: String,
+
+    /// Optional value to show line numbers or not
+    #[clap(short, long)]
+    line_numbers: bool,
 }
 
-fn compile_regex(pattern: &str) -> Regex {
-    Regex::new(pattern).expect(
-        "Couldn't compile source regex. Check if the regex you've passed was valid and try again.",
-    )
-}
-
-fn test_and_print_line(line: &str, pattern: &Regex) {
-    if pattern.is_match(line) {
-        let matches = pattern
-            .find_iter(line)
-            .map(|digits| digits.as_str())
-            .collect::<Vec<&str>>();
-
-        for (idx, item) in pattern.split(line).enumerate() {
-            print!("{}", item);
-
-            match matches.get(idx) {
-                Some(item) => print!("{}", item.red().bold()),
-                None => (),
-            }
-        }
-
-        print!("\n");
-    }
-}
-
+/// Executes the application, it is self-contained so it doesn't take any arguments
+///
+/// # Example
+///
+/// ```
+/// grep::core::main();
+/// ```
 pub fn main() {
-    let args = std::env::args().skip(1).collect::<Vec<String>>();
+    let args = Arguments::parse();
 
-    let pattern = compile_regex(&args[0]);
-    let file_contents = read_source_file(&args[1]);
+    let pattern = regexp::compile_regex(&args.pattern);
 
-    for line in file_contents.split('\n') {
-        test_and_print_line(line, &pattern);
+    // Read from filename or read directly from piped stdin
+    // if a filename wasn't provided
+    let contents = if args.filename.len() > 0 {
+        files::read_source_file(&args.filename)
+    } else {
+        stdin::read_from_stdin()
+    };
+
+    // Print line number if the flag was set in the arguments
+    if args.line_numbers {
+        for (number, line) in contents.split('\n').enumerate() {
+            stdout::print_line_with_number(line, number + 1, &pattern);
+        }
+        return;
+    }
+
+    // Default behavior is to read the content and not print it's lines
+    for line in contents.split('\n') {
+        stdout::print_line(line, &pattern);
     }
 }
